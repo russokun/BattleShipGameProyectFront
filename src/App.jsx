@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import Board from './components/Board';
+import Ship from './components/Ship';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [ships, setShips] = useState([
+    { type: 'destroyer', x: 0, y: 0, horizontal: true },
+    { type: 'submarine', x: 0, y: 0, horizontal: true },
+    { type: 'cruiser', x: 0, y: 0, horizontal: true },
+    { type: 'battleship', x: 0, y: 0, horizontal: true },
+  ]);
+
+  const handleToggleOrientation = (shipType) => {
+    const updatedShips = ships.map(ship => {
+      if (ship.type === shipType) {
+        return { ...ship, horizontal: !ship.horizontal };
+      }
+      return ship;
+    });
+
+    setShips(updatedShips);
+  };
 
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
+      <div className='flex flex-col justify-center items-center gap-4 w-screen h-screen bg-cover bg-top bg-[url("/background.jpeg")]'>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+          <Board/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className='flex flex-wrap gap-2 min-h-[200px]'>
+          {ships.map(ship => (
+            <Ship
+              key={ship.type}
+              type={ship.type}
+              x={ship.x}
+              y={ship.y}
+              horizontal={ship.horizontal}
+              onClick={handleToggleOrientation}
+            />
+          ))}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      </div>
+    </DndProvider>
+  );
+};
 
-export default App
+export default App;
