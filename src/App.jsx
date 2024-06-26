@@ -1,12 +1,12 @@
 import React from 'react';
-import Board from './components/board';
+import Board from './components/shootBoard';
+import AuthComponent from './components/authComponent';
 import './App.css';
 
 const App = () => {
   return (
-    <div className="flex flex-col w-full h-screen background-image">
-      <h1>Batalla Naval :V</h1>
-        <Board />
+    <div className=" w-full h-screen background-image content-center">
+      <AuthComponent />
     </div>
   );
 };
