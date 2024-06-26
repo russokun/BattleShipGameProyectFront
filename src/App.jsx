@@ -1,12 +1,13 @@
 import React from 'react';
-import Board from './components/shootBoard';
+import ShootBoard from './components/shootBoard';
 import AuthComponent from './components/authComponent';
+import MainLayout from './layouts/mainLayout';
 import './App.css';
 
 const App = () => {
   return (
-    <div className=" w-full h-screen background-image content-center">
-      <AuthComponent />
+    <div className=" w-full h-screen content-center">
+      <MainLayout />
     </div>
   );
 };
