@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Cell from './Cell';
 import '../styles/board.css';
 
-const Board = () => {
+const ShootBoard = () => {
   const [shots, setShots] = useState([]);
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']; // Array de letras para las filas
 
@@ -48,4 +48,4 @@ const Board = () => {
   );
 };
 
-export default Board;
+export default ShootBoard;
