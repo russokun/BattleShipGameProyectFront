@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MainLayout = () => {
+const LandingPage = () => {
   return (
     <div className='flex flex-col min-h-[100dvh]'>
       <header className='bg-[#071952] text-primary-foreground py-6 px-4 md:px-6'>
@@ -40,7 +40,7 @@ const MainLayout = () => {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-[#EBF4F6]" style={{backgroundImage: "url('../public/fondoLanding.jpg')",
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-[#EBF4F6]" style={{backgroundImage: "url('./fondoLanding.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',}}>
           <div className="container px-4 md:px-6 text-center">
@@ -69,4 +69,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default LandingPage;
