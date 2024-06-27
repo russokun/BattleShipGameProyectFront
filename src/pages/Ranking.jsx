@@ -31,7 +31,7 @@ export const Ranking = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-500">
                 {users.map((user, index) => (
-                  <tr key={user.id} className={index % 2 === 0 ? 'bg-gray-300' : 'bg-white'}>
+                  <tr key={user.id} className={`${index % 2 === 0 ? 'bg-gray-300' : 'bg-white'} transition-transform duration-300 ease-in-out transform hover:scale-105`}>
                     <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.username}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.score}</td>
