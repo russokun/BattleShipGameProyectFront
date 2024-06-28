@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, User } from "@nextui-org/react";
 
 const DropDownMobile = () => {
+  const [info, setInfo] = useState('')
   return (
     <Dropdown
       showArrow
