@@ -3,7 +3,7 @@ import Chatbot from '../components/ChatBot';
 
 const Matchmaking = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[url('./assets/images/background.jpg')] bg-cover relative">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[url('./background.jpg')] bg-cover relative">
       <main className="flex-1 flex flex-col items-center justify-center p-4">
         <div className="flex w-full justify-evenly flex-wrap">
           <div className="flex flex-col items-center w-full sm:w-[35%] mb-8 sm:mb-4">

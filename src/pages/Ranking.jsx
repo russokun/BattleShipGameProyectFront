@@ -16,7 +16,7 @@ export const Ranking = () => {
   ];
 
   return (
-    <div className="bg-[url('./assets/images/background.jpg')] bg-cover min-h-screen">
+    <div className="bg-[url('./background.jpg')] bg-cover min-h-screen">
       <section className="container mx-auto pt-8 sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3">
         <h1 className="text-3xl font-semibold text-center text-white mb-4 pt-4 italic">Top 10 Battleships</h1>
         <div className="bg-white rounded-lg overflow-hidden shadow-lg mx-auto">

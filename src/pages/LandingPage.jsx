@@ -2,7 +2,10 @@ import React from 'react'
 import Corousel from "../components/Carousel"
 const LandingPage = () => {
   return (
-      <div className='flex flex-col min-h-[100dvh]'>
+      <div className='flex flex-col min-h-[100dvh]' style={{
+        backgroundImage: "url('../background.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',}}>
       <header className='bg-[#071952] text-primary-foreground py-6 px-4 md:px-6'>
         <div className='container flex flex-col items-center gap-4 text-center'>
           <h1 className='text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-[#FAECC8]'>BattleShip</h1>
@@ -12,7 +15,7 @@ const LandingPage = () => {
             </p>
         </div>
       </header>
-      <main className='flex flex-col'>
+      <main className='flex flex-col bg' >
       <Corousel></Corousel>
       </main>
       <footer  className="w-full py-12 md:py-24 lg:py-32 bg-[#EBF4F6] min-h-[450px] bottom-0" style={{
@@ -22,16 +25,16 @@ const LandingPage = () => {
 
           <div className="container px-4 md:px-6 text-center">
             <div className="space-y-4 flex flex-col items-end ">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#071952]">
                 ¡Juega BattleShip Ahora!
               </h2>
-              <p className="max-w-[500px] text-muted-foreground md:text-xl">
+              <p className="max-w-[500px] text-muted-foreground md:text-xl text-[#071952] bg-slate-50 rounded-lg">
                 Prueba el juego gratis y comienza a hundir barcos en emocionantes batallas navales !
               </p>
               
               
             </div>
-            <div className='flex gap-4 justify-evenly pt-10'>
+            <div className='flex gap-4 justify-end pt-10 max-w-[700px]'>
               <button className="flex justify-center gap-4">
                 <a
                   href="#"

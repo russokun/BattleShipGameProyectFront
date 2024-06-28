@@ -36,7 +36,7 @@ function AuthComponent() {
         let account = responseCurrent.data;
         account.token = token;
         dispatch(login(account));
-        navigate("/ranking");
+        navigate("/mm");
       } catch (error) {
         console.log(error);
       }
@@ -63,7 +63,10 @@ function AuthComponent() {
     
 
   return (
-    <div className="flex flex-col justify-center items-center self-center" >
+    <div className="flex flex-col justify-center items-center self-center min-h-screen" style={{
+      backgroundImage: "url('../world-warships.webp')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',}}>
       <form onSubmit={handleSubmit} className="space-y-4 border-2 p-3" style={{ backdropFilter: "blur(8px)" }}>
         {!isLogin && (
           <>
