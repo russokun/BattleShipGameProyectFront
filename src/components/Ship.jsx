@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
+import { useDrag } from 'react-dnd';
 
-const Ship = ({ type, x, y, horizontal }) => {
+const Ship = ({ type, x, y, horizontal, size }) => {
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: 'ship',
+        item: { type, horizontal, size },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }));
 
     let sizeClass;
     if (horizontal) {
@@ -37,7 +45,8 @@ const Ship = ({ type, x, y, horizontal }) => {
 
     return (
         <div
-            className={sizeClass + ' bg-gray-500 rounded-md opacity-70 cursor-pointer'}
+            ref={drag}
+            className={sizeClass + ' bg-gray-500 rounded-md opacity-70 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '')}
         ></div>
     );
 };

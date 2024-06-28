@@ -6,14 +6,16 @@ import './App.css';
 import { Ranking } from './pages/Ranking';
 import  AuthComponent  from './components/AuthComponent';
 import Matchmaking from './pages/Matchmaking';
-import ShootBoard from './components/ShootBoard';
-import Board from './components/Board';
 import Game from './pages/Game';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 
 
 const App = () => {
   return (
     <Router>
+      <DndProvider backend={HTML5Backend}>
       <div>
         <MainLayout>
           <Routes>
@@ -28,6 +30,7 @@ const App = () => {
           </Routes>
         </MainLayout>
       </div>
+      </DndProvider>
     </Router>
   );
 };
