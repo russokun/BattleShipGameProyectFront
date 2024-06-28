@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Input, Button } from "@nextui-org/react"; // Asegúrate de que las rutas de importación sean correctas
+import { login } from "../Redux/actions/AuthActions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export default function AuthComponent() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
-  });
+function AuthComponent() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
+  const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -17,14 +17,50 @@ export default function AuthComponent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLogin) {
+    if (isLogin === true) {
       // Lógica de inicio de sesión
       console.log("Iniciando sesión con:", formData);
+      const user = {
+        email: formData.email,
+        password: formData.password,
+      };
+      try {
+        const response = await axios.post("http://localhost:8080/api/auth/login", user);
+        let token = response.data;
+        console.log(response);
+        const responseCurrent = await axios.get("http://localhost:8080/api/auth/current", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        let account = responseCurrent.data;
+        account.token = token;
+        dispatch(login(account));
+        navigate("/ranking");
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       // Lógica de registro
       console.log("Registrando con:", formData);
+      const user = {
+        fName: formData.firstName,
+        lName: formData.lastName,
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      };
+      try {
+        const response = await axios.post("http://localhost:8080/api/auth/register", user);
+        if(response.status === 201){
+        setIsLogin(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
+    
 
   return (
     <div className="flex flex-col justify-center items-center self-center" >
@@ -85,9 +121,9 @@ export default function AuthComponent() {
             <Input
               clearable
               bordered
-              label="Username"
-              id="username"
-              value={formData.username}
+              label="Email"
+              id="email"
+              value={formData.email}
               onChange={handleChange}
               maxLength={50}
             />
@@ -117,3 +153,5 @@ export default function AuthComponent() {
     </div>
   );
 }
+
+export default AuthComponent;
