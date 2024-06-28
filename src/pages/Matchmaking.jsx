@@ -1,35 +1,44 @@
 import React from 'react';
 import Swal from 'sweetalert2';
-import withReactContent from '@sweetalert2/react-content';
 import Chatbot from '../components/ChatBot';
+import { useSelector } from 'react-redux';
 
 const Matchmaking = () => {
-  const MySwal = withReactContent(Swal);
-
-  const handleJoinClick = () => {
-    MySwal.fire({
-      title: 'Enter your text',
+  const info = useSelector(store => store.AuthReducer)
+  console.log(info);
+  const handleJoinClick = async () => {
+    const { value: text } = await Swal.fire({
+      title: 'Enter the party code:',
       input: 'text',
-      inputPlaceholder: 'Type something...',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
       showCancelButton: true,
-      confirmButtonText: 'Join',
+      confirmButtonText: 'Send',
       cancelButtonText: 'Cancel',
       showLoaderOnConfirm: true,
-      preConfirm: (text) => {
-        if (!text) {
-          MySwal.showValidationMessage('Please enter some text');
-        }
-        return text;
+      preConfirm: (inputText) => {
+        // You can process the input text here if needed
+        return inputText;
       },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const text = result.value;
-        console.log('Entered text:', text);
-        Swal.fire('Success!', `You joined with text: ${text}`, 'success');
+      allowOutsideClick: () => !Swal.isLoading(),
+      customClass:{
+        confirmButton: 'bg-blue-300 text-white hover:bg-blue-600',
+        cancelButton: 'bg-red-500 text-white hover:bg-red-600',
+        container: 'bg-gray-900 text-black',
+        popup: 'bg-gradient-to-tr from-slate-600 via-slate-900 to-slate-600 text-white',
       }
     });
-  };
 
+    if (text) {
+      Swal.fire({
+        title: 'Enter party code:',
+        text: text,
+        icon: 'success'
+      });
+    }
+  }
+  
   return (
     <div
       className="flex flex-col justify-center items-center min-h-screen"
