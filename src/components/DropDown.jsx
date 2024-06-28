@@ -8,8 +8,8 @@ const DropDown = () => {
         showArrow
         radius="sm"
         classNames={{
-          base: "before:bg-blue-900", // Cambiar fondo de la flecha
-          content: "p-0 border-small border-divider border-black bg-blue-900 bg-opacity-50",
+          base: "before:bg-white", // Cambiar fondo de la flecha a blanco
+          content: "p-0 border-small border-divider border-black bg-white bg-opacity-100", // Fondo del contenido blanco y sin opacidad
         }}
         dropdownStyle={{ minWidth: '100%' }} // Asegura que el Dropdown ocupe todo el ancho en móvil
       >
@@ -33,8 +33,8 @@ const DropDown = () => {
               "text-[#071952]",
               "transition-opacity",
               "data-[hover=true]:text-foreground",
-              "data-[hover=true]:bg-[#5A72A0]",
-              "dark:data-[hover=true]:bg-[#5A72A0]",
+              "data-[hover=true]:bg-[#ffffff]",
+              "dark:data-[hover=true]:bg-[#ffffff]",
               "data-[selectable=true]:focus:bg-[#5A72A0]",
               "data-[pressed=true]:",
               "data-[focus-visible=true]:ring-2",
@@ -46,8 +46,8 @@ const DropDown = () => {
               name="Joaquin Neulist"
               description="Joaquin@gmail.com"
               classNames={{
-                name: "text-[#]", // Texto más claro con opacidad
-                description: "text-[#]", // Texto más claro con opacidad
+                name: "text-[#0D275E]",
+                description: "text-[#0D275E]", 
               }}
               avatarProps={{
                 size: "lg",
