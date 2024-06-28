@@ -8,6 +8,7 @@ import  AuthComponent  from './components/AuthComponent';
 import Matchmaking from './pages/Matchmaking';
 import ShootBoard from './components/ShootBoard';
 import Board from './components/Board';
+import Game from './pages/Game';
 
 
 const App = () => {
@@ -21,8 +22,8 @@ const App = () => {
             <Route path='/mm' element={<Matchmaking />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/ranking" element={<Ranking />} />
-            {/* {<Route path='/shoot' element={< ShootBoard/>} />
-            <Route path='/board' element={< Board/>} />}  */}
+            <Route path='/game' element={< Game/>} />
+            {/* <Route path='/shoot' element={< ShootBoard/>} /> */}
             {/* <Route path='/' element={< />} /> */}
           </Routes>
         </MainLayout>
