@@ -14,7 +14,7 @@ const Matchmaking = () => {
         autocapitalize: 'off'
       },
       showCancelButton: true,
-      confirmButtonText: 'Send',
+      confirmButtonText: 'Join',
       cancelButtonText: 'Cancel',
       showLoaderOnConfirm: true,
       preConfirm: (inputText) => {
