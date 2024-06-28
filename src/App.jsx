@@ -1,32 +1,47 @@
 import React from 'react';
 import Landing from './pages/LandingPage';
 import MainLayout from './layouts/MainLayout';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import { Ranking } from './pages/Ranking';
-import  AuthComponent  from './components/AuthComponent';
+import Registercomponent from './components/Register'; // Corregido el nombre
+import Logincomponent from './components/Login'; // Corregido el nombre
 import Matchmaking from './pages/Matchmaking';
 import ShootBoard from './components/ShootBoard';
 import Board from './components/Board';
 
+const AppRoutes = () => {
+  const location = useLocation();
+  
+  const isAuthRoute = location.pathname === '/login' || location.pathname === '/register';
+  
+  return (
+    <div>
+      {isAuthRoute ? (
+        <Routes>
+          <Route path='/register' element={<Registercomponent />} />
+          <Route path='/login' element={<Logincomponent />} />
+        </Routes>
+      ) : (
+        <MainLayout>
+          <Routes>
+            <Route path='/' element={<Landing />} />
+            <Route path='/mm' element={<Matchmaking />} />
+            <Route path='/ranking' element={<Ranking />} />
+            {/* Otras rutas con MainLayout */}
+            {/* <Route path='/shoot' element={<ShootBoard />} /> */}
+            {/* <Route path='/board' element={<Board />} /> */}
+          </Routes>
+        </MainLayout>
+      )}
+    </div>
+  );
+};
 
 const App = () => {
   return (
     <Router>
-      <div>
-        <MainLayout>
-          <Routes>
-            <Route path='/' element={<Landing/>}/>
-            <Route path="/auth" element={<AuthComponent />} />
-            <Route path='/mm' element={<Matchmaking />} />
-            <Route path="/ranking" element={<Ranking />} />
-            <Route path="/ranking" element={<Ranking />} />
-            {/* {<Route path='/shoot' element={< ShootBoard/>} />
-            <Route path='/board' element={< Board/>} />}  */}
-            {/* <Route path='/' element={< />} /> */}
-          </Routes>
-        </MainLayout>
-      </div>
+      <AppRoutes />
     </Router>
   );
 };
