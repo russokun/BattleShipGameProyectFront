@@ -1,0 +1,17 @@
+/* Chatbot.css */
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  10%, 90% { transform: translate(-0.5px, 0); }
+  20%, 80% { transform: translate(0.5px, 0); }
+  30%, 70% { transform: translate(-0.3px, 0); }
+  40%, 60% { transform: translate(0.3px, 0); }
+  50% { transform: translate(0, 0); }
+}
+
+.chatbot-button {
+  transition: transform 0.3s ease-in-out;
+}
+
+.chatbot-button:hover {
+  animation: shake 0.5s ease infinite; /* Aplicamos la animación de sacudida cuando el cursor está sobre el botón */
+}
