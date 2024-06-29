@@ -32,7 +32,7 @@ const AppRoutes = () => {
             <Route path='/ranking' element={<Ranking />} />
             {/* Otras rutas con MainLayout */}
             {/* <Route path='/shoot' element={<ShootBoard />} /> */}
-            {/* <Route path='/board' element={<Board />} /> */}
+            <Route path='/game' element={<Game />} />
           </Routes>
         </MainLayout>
       )}
@@ -43,7 +43,9 @@ const AppRoutes = () => {
 const App = () => {
   return (
     <Router>
+      <DndProvider backend={HTML5Backend}>
       <AppRoutes />
+      </DndProvider>
     </Router>
   );
 };

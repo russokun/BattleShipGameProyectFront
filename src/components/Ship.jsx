@@ -46,7 +46,7 @@ const Ship = ({ type, x, y, horizontal, size }) => {
     return (
         <div
             ref={drag}
-            className={sizeClass + ' bg-gray-500 rounded-md opacity-70 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '')}
+            className={sizeClass + ' bg-gray-500 rounded-md opacity-100 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '')}
         ></div>
     );
 };
