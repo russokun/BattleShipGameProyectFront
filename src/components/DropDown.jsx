@@ -1,23 +1,38 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, User } from "@nextui-org/react";
+import { logout } from '../Redux/actions/AuthActions';
 
-const DropDown = () => {
+const DropDown = ({ user }) => {
+  const dispatch = useDispatch();
+  const info = useSelector(state => state.AuthReducer);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
+
+  const isOnMatchmakingPage = location.pathname === '/matchmaking';
+
   return (
-    <div className="fixed top-4 right-4 z-50 hidden md:block"> {/* Ocultar en dispositivos móviles */}
+    <div className="fixed top-4 right-4 z-50 hidden md:block">
       <Dropdown
         showArrow
         radius="sm"
         classNames={{
-          base: "before:bg-white", // Cambiar fondo de la flecha a blanco
-          content: "p-0 border-small border-divider border-black bg-white bg-opacity-100", // Fondo del contenido blanco y sin opacidad
+          base: "before:bg-white",
+          content: "p-0 border-small border-divider border-black bg-white bg-opacity-100",
         }}
-        dropdownStyle={{ minWidth: '100%' }} // Asegura que el Dropdown ocupe todo el ancho en móvil
+        dropdownStyle={{ minWidth: '100%' }}
       >
         <DropdownTrigger>
           <Button
             variant="ghost"
             color="text-white"
-            className="text-white bg-[#071952] hover:bg-[#0D2E5E] rounded-full w-28 px-4 py-2 border border-black" // Botón redondo con borde negro
+            className="text-white bg-[#071952] hover:bg-[#0D2E5E] rounded-full w-28 px-4 py-2 border border-black"
             disableRipple
           >
             Menú
@@ -43,8 +58,8 @@ const DropDown = () => {
         >
           <DropdownItem isReadOnly key="profile" className="h-14 gap-2">
             <User
-              name="Joaquin Neulist"
-              description="Joaquin@gmail.com"
+              name={info.user.username}
+              description={info.user.email}
               classNames={{
                 name: "text-[#0D275E]",
                 description: "text-[#0D275E]", 
@@ -55,9 +70,10 @@ const DropDown = () => {
               }}
             />
           </DropdownItem>
-          <DropdownItem key="ranking">Ranking</DropdownItem>
-          <DropdownItem key="account">Profile</DropdownItem>
-          <DropdownItem key="logout">Log Out</DropdownItem>
+          <DropdownItem key="ranking" onClick={() => navigate(isOnMatchmakingPage ? '/ranking' : '/mm')}>
+            {isOnMatchmakingPage ? 'Ranking' : 'Matchmaking'}
+          </DropdownItem>
+          <DropdownItem key="logout" onClick={handleLogout}>Log Out</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     </div>
