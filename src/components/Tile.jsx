@@ -1,20 +1,22 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 
-const Tile = ({ onDrop,children }) => {
+const Tile = ({ children, id, onDrop }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'ship',
-    drop: (item) => onDrop(item.type),
+    drop: (item, monitor) => {    //Cada vez que se dropee un barco se ejecuta la función onDrop que sale del componente Tile
+        onDrop(item, id); // Función que sale del componente con los parametros item y el id del Tile
+    },
     collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+        isOver: !!monitor.isOver(),
     }),
-  }));
+}));
 
   return (
     <div
       ref={drop}
-      className='w-[50px] h-[50px] border-[0.5px] border-white'
-      style={{ backgroundColor: isOver ? 'gray' : 'transparent' }}
+      id={id}
+      className={'flex justify-center items-center w-[50px] h-[50px] border-[0.5px] border-white' + (isOver ? ' bg-blue-200' : '')}
     >{children}</div>
   );
 };

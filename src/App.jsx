@@ -7,8 +7,10 @@ import { Ranking } from './pages/Ranking';
 import Registercomponent from './components/Register'; // Corregido el nombre
 import Logincomponent from './components/Login'; // Corregido el nombre
 import Matchmaking from './pages/Matchmaking';
-import ShootBoard from './components/ShootBoard';
-import Board from './components/Board';
+import Game from './pages/Game';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -30,7 +32,7 @@ const AppRoutes = () => {
             <Route path='/ranking' element={<Ranking />} />
             {/* Otras rutas con MainLayout */}
             {/* <Route path='/shoot' element={<ShootBoard />} /> */}
-            {/* <Route path='/board' element={<Board />} /> */}
+            <Route path='/game' element={<Game />} />
           </Routes>
         </MainLayout>
       )}
@@ -41,7 +43,9 @@ const AppRoutes = () => {
 const App = () => {
   return (
     <Router>
+      <DndProvider backend={HTML5Backend}>
       <AppRoutes />
+      </DndProvider>
     </Router>
   );
 };
