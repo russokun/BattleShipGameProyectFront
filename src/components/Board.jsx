@@ -8,14 +8,20 @@ const verticalAxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 const Board = () => {
   // Se inicializa como array vacío donde se guardarán los barcos como objetos
   const [ships, setShips] = useState([]);
+  console.log(ships);
 
   // Cada vez que se ejecute onDrop se ejecuta la función handleDrop con los parametros que vienen desde el componente Tile
   const handleDrop = (item, tileId) => {
-    console.log(ships);
     console.log(tileId);
     const newShip = { ...item, tileId }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
-    // Se usa prevShips en lugar de setShips([...ships, newShip]) para garantizar obtener el estado más reciente de los barcos
-    setShips((prevShips) => [...prevShips, newShip]);
+
+    // Usa la función de actualización del estado anterior
+    setShips((prevShips) => {
+      // Elimina el barco en la nueva posición si ya hay uno
+      const updatedShips = prevShips.filter(ship => ship.tileId !== tileId && ship.type !== newShip.type);
+      // Añade el nuevo barco a la posición
+      return [...updatedShips, newShip];
+  });
   };
 
   let board = [];
@@ -23,6 +29,7 @@ const Board = () => {
   for (let i = 0; i < horizontalAxis.length; i++) {
     for (let j = 0; j < verticalAxis.length; j++) {
       const tileId = horizontalAxis[i] + verticalAxis[j];
+      // Crea un nuevo barco 
       const shipInTile = ships.find((ship) => ship.tileId === tileId);
 
       board.push(
