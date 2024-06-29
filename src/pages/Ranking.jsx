@@ -1,19 +1,28 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export const Ranking = () => {
-  // Datos harcodeados de ejemplo (nombre de usuario y puntajes)
-  const users = [
-    { id: 1, username: 'Usuario1', score: 150 },
-    { id: 2, username: 'Usuario2', score: 140 },
-    { id: 3, username: 'Usuario3', score: 130 },
-    { id: 4, username: 'Usuario4', score: 120 },
-    { id: 5, username: 'Usuario5', score: 110 },
-    { id: 6, username: 'Usuario6', score: 100 },
-    { id: 7, username: 'Usuario7', score: 90 },
-    { id: 8, username: 'Usuario8', score: 80 },
-    { id: 9, username: 'Usuario9', score: 70 },
-    { id: 10, username: 'Usuario10', score: 60 }
-  ];
+  const [rankingData, setRankingData] = useState([]);
+  const token = useSelector(store => store.AuthReducer.token);
+
+  useEffect(() => {
+    const fetchRanking = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/ranking', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setRankingData(response.data);
+      } catch (error) {
+        console.error('Error fetching ranking:', error);
+        // Manejar errores aquí según tu requerimiento (mostrar mensaje de error, etc.)
+      }
+    };
+
+    fetchRanking();
+  }, [token]);
 
   return (
     <div className="bg-[url('./ranking.webp')] bg-cover min-h-screen">
@@ -30,7 +39,7 @@ export const Ranking = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-500">
-                {users.map((user, index) => (
+                {rankingData.map((user, index) => (
                   <tr key={user.id} className={`${index % 2 === 0 ? 'bg-gray-300' : 'bg-white'} transition-transform duration-300 ease-in-out transform hover:scale-105`}>
                     <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.username}</td>

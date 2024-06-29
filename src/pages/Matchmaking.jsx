@@ -26,7 +26,7 @@ const Matchmaking = () => {
         confirmButton: 'bg-blue-300 text-white hover:bg-blue-600',
         cancelButton: 'bg-red-500 text-white hover:bg-red-600',
         container: 'bg-gray-900 text-black',
-        popup: 'bg-gradient-to-tr from-slate-600 via-slate-900 to-slate-600 text-white',
+        popup: 'bg-gradient-to-tr from-slate-600 via-slate-900 to-slate-600',
       }
     });
 

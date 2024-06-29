@@ -4,7 +4,7 @@ import ShipContainer from '../components/ShipContainer';
 
 const Game = () => {
   return (
-    <div className="flex items-center w-screen h-screen bg-cover bg-[url('/background.jpeg')] space-x-4 p-6">
+    <div className="flex items-center w-full h-full bg-cover bg-[url('/background.jpeg')] p-6">
       <ShipContainer />
       <Board />
     </div>
