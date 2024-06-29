@@ -18,7 +18,7 @@ const Board = () => {
     // Usa la función de actualización del estado anterior
     setShips((prevShips) => {
       // Elimina el barco en la nueva posición si ya hay uno
-      const updatedShips = prevShips.filter(ship => ship.tileId !== tileId && ship.type !== newShip.type);
+      const updatedShips = prevShips.filter(ship => ship.tileId !== tileId && ship.id !== newShip.id);
       // Añade el nuevo barco a la posición
       return [...updatedShips, newShip];
   });
@@ -29,6 +29,8 @@ const Board = () => {
   for (let i = 0; i < horizontalAxis.length; i++) {
     for (let j = 0; j < verticalAxis.length; j++) {
       const tileId = horizontalAxis[i] + verticalAxis[j];
+      const cordX = horizontalAxis[i];
+      const cordY = verticalAxis[j];
       // Crea un nuevo barco 
       const shipInTile = ships.find((ship) => ship.tileId === tileId);
 
@@ -36,9 +38,10 @@ const Board = () => {
         <Tile id={tileId} key={tileId} onDrop={handleDrop}>
           {shipInTile && ( // Si hay un barco en la celda se renderizará el componente Ship
             <Ship
+              id={shipInTile.id}
               type={shipInTile.type}
-              x={0} // Propiedad con potencial uso
-              y={0} // Propiedad con potencial uso
+              x={cordX} // Propiedad con potencial uso
+              y={cordY} // Propiedad con potencial uso
               horizontal={shipInTile.horizontal}
               size={shipInTile.size}
             />
