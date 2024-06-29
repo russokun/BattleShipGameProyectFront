@@ -11,7 +11,7 @@ const Board = () => {
   console.log(ships);
 
   // Cada vez que se ejecute onDrop se ejecuta la función handleDrop con los parametros que vienen desde el componente Tile
-  const handleDrop = (item, tileId) => {
+  const handleDrop = (item, tileId, monitor) => {
     console.log(tileId);
     const newShip = { ...item, tileId }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
 
-const Ship = ({ type, x, y, horizontal, size }) => {
+const Ship = ({ type, x, y, horizontal, size, id }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'ship',
-        item: { type, horizontal, size },  // Propiedades que tiene el objeto item que sale del componente Tile
+        item: { type, horizontal, size, id },  // Propiedades que tiene el objeto item que sale del componente Tile
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -45,6 +45,7 @@ const Ship = ({ type, x, y, horizontal, size }) => {
 
     return (
         <div
+            id={id}
             ref={drag}
             className={sizeClass + ' bg-gray-500 rounded-md opacity-100 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '')}
         ></div>
