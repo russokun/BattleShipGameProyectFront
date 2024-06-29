@@ -6,7 +6,7 @@ const horizontalAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 const verticalAxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 const Board = () => {
-  // Se inicializa como array vacío donde se guardarán los barcos como objetos
+  // Se inicializa como array vacío donde se guardarán los barcos como objetos, estos serán los barcos en el tablero
   const [ships, setShips] = useState([]);
   console.log(ships);
 
@@ -17,7 +17,7 @@ const Board = () => {
 
     // Usa la función de actualización del estado anterior
     setShips((prevShips) => {
-      // Elimina el barco en la nueva posición si ya hay uno
+      // Elimina el barco en la nueva posición si ya hay uno y si el id de un barco ya existe en el array
       const updatedShips = prevShips.filter(ship => ship.tileId !== tileId && ship.id !== newShip.id);
       // Añade el nuevo barco a la posición
       return [...updatedShips, newShip];
@@ -29,8 +29,6 @@ const Board = () => {
   for (let i = 0; i < horizontalAxis.length; i++) {
     for (let j = 0; j < verticalAxis.length; j++) {
       const tileId = horizontalAxis[i] + verticalAxis[j];
-      const cordX = horizontalAxis[i];
-      const cordY = verticalAxis[j];
       // Crea un nuevo barco 
       const shipInTile = ships.find((ship) => ship.tileId === tileId);
 
@@ -40,8 +38,8 @@ const Board = () => {
             <Ship
               id={shipInTile.id}
               type={shipInTile.type}
-              x={cordX} // Propiedad con potencial uso
-              y={cordY} // Propiedad con potencial uso
+              x={0} // Propiedad con potencial uso
+              y={0} // Propiedad con potencial uso
               horizontal={shipInTile.horizontal}
               size={shipInTile.size}
             />
