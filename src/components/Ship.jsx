@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd';
 const Ship = ({ type, x, y, horizontal, size }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'ship',
-        item: { type, horizontal, size },
+        item: { type, horizontal, size },  // Propiedades que tiene el objeto item que sale del componente Tile
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -46,7 +46,7 @@ const Ship = ({ type, x, y, horizontal, size }) => {
     return (
         <div
             ref={drag}
-            className={sizeClass + ' bg-gray-500 rounded-md opacity-70 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '')}
+            className={sizeClass + ' bg-gray-500 rounded-md opacity-100 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '')}
         ></div>
     );
 };
