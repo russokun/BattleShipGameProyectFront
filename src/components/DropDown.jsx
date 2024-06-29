@@ -15,7 +15,7 @@ const DropDown = ({ user }) => {
     navigate('/login');
   };
 
-  const isOnMatchmakingPage = location.pathname === '/matchmaking';
+  const isOnRankingPage = location.pathname === '/ranking';
 
   return (
     <div className="fixed top-4 right-4 z-50 hidden md:block">
@@ -70,8 +70,8 @@ const DropDown = ({ user }) => {
               }}
             />
           </DropdownItem>
-          <DropdownItem key="ranking" onClick={() => navigate(isOnMatchmakingPage ? '/ranking' : '/mm')}>
-            {isOnMatchmakingPage ? 'Ranking' : 'Matchmaking'}
+          <DropdownItem key="ranking" onClick={() => navigate(isOnRankingPage ? '/mm' : '/ranking')}>
+            {isOnRankingPage ? 'Matchmaking' : 'Ranking'}
           </DropdownItem>
           <DropdownItem key="logout" onClick={handleLogout}>Log Out</DropdownItem>
         </DropdownMenu>
