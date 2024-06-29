@@ -4,7 +4,7 @@ import { useDrop } from 'react-dnd';
 const Tile = ({ children, id, onDrop }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'ship',
-    drop: (item, monitor) => {    //Cada vez que se dropee un barco se ejecuta la función onDrop que sale del componente Tile
+    drop: (item) => {    //Cada vez que se dropee un barco se ejecuta la función onDrop que sale del componente Tile
         onDrop(item, id); // Función que sale del componente con los parametros item y el id del Tile
     },
     collect: (monitor) => ({
