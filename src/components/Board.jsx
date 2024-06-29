@@ -6,12 +6,15 @@ const horizontalAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 const verticalAxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 const Board = () => {
+  // Se inicializa como array vacío donde se guardarán los barcos como objetos
   const [ships, setShips] = useState([]);
-  console.log(ships);
 
+  // Cada vez que se ejecute onDrop se ejecuta la función handleDrop con los parametros que vienen desde el componente Tile
   const handleDrop = (item, tileId) => {
+    console.log(ships);
     console.log(tileId);
-    const newShip = { ...item, tileId };
+    const newShip = { ...item, tileId }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
+    // Se usa prevShips en lugar de setShips([...ships, newShip]) para garantizar obtener el estado más reciente de los barcos
     setShips((prevShips) => [...prevShips, newShip]);
   };
 
@@ -24,11 +27,11 @@ const Board = () => {
 
       board.push(
         <Tile id={tileId} key={tileId} onDrop={handleDrop}>
-          {shipInTile && (
+          {shipInTile && ( // Si hay un barco en la celda se renderizará el componente Ship
             <Ship
               type={shipInTile.type}
-              x={0} // Puedes ajustar la posición según sea necesario
-              y={0} // Puedes ajustar la posición según sea necesario
+              x={0} // Propiedad con potencial uso
+              y={0} // Propiedad con potencial uso
               horizontal={shipInTile.horizontal}
               size={shipInTile.size}
             />

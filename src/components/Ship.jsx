@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd';
 const Ship = ({ type, x, y, horizontal, size }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'ship',
-        item: { type, horizontal, size },
+        item: { type, horizontal, size },  // Propiedades que tiene el objeto item que sale del componente Tile
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
