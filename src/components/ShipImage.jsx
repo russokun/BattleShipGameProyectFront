@@ -1,6 +1,13 @@
 import React from 'react'
 
-const ShipImage = ({ ship, size }) => {
+const ShipImage = ({ ship, size, horizontal }) => {
+
+    let orientation;
+    if (!horizontal) {
+        orientation = 'rotate-90';
+    }else {
+        orientation = 'rotate-0';
+    }
 
     let shipImage;
     switch (ship) {
@@ -23,7 +30,7 @@ const ShipImage = ({ ship, size }) => {
     }
 
   return (
-    <img className={size + ' object-contain'} src={shipImage} alt="" />
+    <img className={size + ' object-contain '+ orientation} src={shipImage} alt="" />
   )
 }
 
