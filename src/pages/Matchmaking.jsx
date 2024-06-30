@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 const Matchmaking = () => {
+  const info = useSelector(store => store.AuthReducer);
+
   useEffect(() => {
     // Crear e inyectar el primer script del chatbot
     const script1 = document.createElement('script');
@@ -23,9 +25,6 @@ const Matchmaking = () => {
       }
     };
   }, []); // El array vacío asegura que el efecto se ejecute solo una vez
-
-  const info = useSelector(store => store.AuthReducer);
-  console.log(info);
 
   const handleJoinClick = async () => {
     const { value: text } = await Swal.fire({
@@ -81,11 +80,25 @@ const Matchmaking = () => {
           Authorization: `Bearer ${info.token}`
         }
       });
-      console.log(response.data);
+      const createdPartyCode = response.data.partyCode;
       Swal.fire({
         title: 'Match Created',
-        text: response.data.partyCode,
-        icon: 'success'
+        html: `
+          <p>Party Code: <strong>${createdPartyCode}</strong></p>
+          <button id="copy-button" class="swal2-confirm swal2-styled">Copy Code</button>
+        `,
+        icon: 'success',
+        didRender: () => {
+          document.getElementById('copy-button').addEventListener('click', () => {
+            navigator.clipboard.writeText(createdPartyCode).then(() => {
+              Swal.fire({
+                title: 'Copied!',
+                text: 'Party code copied to clipboard',
+                icon: 'success'
+              });
+            });
+          });
+        }
       });
     } catch (error) {
       Swal.fire({
