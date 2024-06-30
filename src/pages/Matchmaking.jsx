@@ -7,12 +7,31 @@ const Matchmaking = () => {
   const info = useSelector(store => store.AuthReducer);
 
   useEffect(() => {
-    // Crear e inyectar el primer script del chatbot
-    const script1 = document.createElement('script');
-    script1.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'; // Reemplaza con la URL real del primer script
-    script1.async = true;
-    // Inyectar el primer script
-    document.body.appendChild(script1);
+   // Crear e inyectar el primer script del chatbot
+      const script1 = document.createElement('script');
+      script1.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'; // Reemplaza con la URL real del primer script
+      script1.async = true;
+
+      const script2 = document.createElement('script');
+      script2.src = "https://mediafiles.botpress.cloud/eee5251d-0f6a-4452-b0d3-daf036697196/webchat/config.js"; 
+      script2.async = true;
+
+      // Inyectar el primer script
+      document.body.appendChild(script1);
+      document.body.appendChild(script2);
+
+      // Función de limpieza que se ejecutará al desmontar el componente
+      return () => {
+        // Eliminar  scripts del DOM
+        document.body.removeChild(script1);
+        document.body.removeChild(script2);
+        // Opcional: Restablecer cualquier cambio realizado por los scripts del chatbot
+        const botonChatbot = document.querySelector('.bpw-widget-btn.bpw-floating-button');
+        if (botonChatbot) {
+          botonChatbot.style.zIndex = '';
+        }
+      };
+    }, []); // El array vacío asegura que el efecto se ejecute solo una vez
 
     // Función de limpieza que se ejecutará al desmontar el componente
     return () => {
