@@ -19,22 +19,24 @@ const Board = () => {
   console.log("Cuadros totales usados:", usedTiles);
 
   // Cada vez que se ejecute onDrop se ejecuta la función handleDrop con los parametros que vienen desde el componente Tile
-  const handleDrop = (item, tileId, monitor) => {
-    const startX = tileId.charCodeAt(0) - 65;
-    const startY = parseInt(tileId.slice(1)) - 1;
+  const handleDrop = (item, tileId) => {
+    const startY = tileId.charCodeAt(0) - 64; // Se obtiene el valor numérico del eje vertical
+    const startX = parseInt(tileId.slice(1)); // Se obtiene como número el valor numérico del eje horizontal 
     let occupiedTiles = [];
     console.log("X:", startX, "Y:", startY);
 
     for (let i = 0; i < item.size; i++){
       if (item.horizontal){
-        const newTileId = String.fromCharCode(65 + startX + i) + (startY + 1);
+        const newTileId = String.fromCharCode(64 + startY) + (startX + i);
+        console.log("Cuadrados totales usados incluye ", newTileId," ", usedTiles.includes(newTileId));
         if(startX + i >= horizontalAxis.length || usedTiles.includes(newTileId)){
           console.error("No puedes colocar un barco en esta ubicación");
           return;
         }
         occupiedTiles.push(newTileId);
       } else {
-        const newTileId = String.fromCharCode(65 + startX) + (startY + 1 + i);
+        const newTileId = String.fromCharCode(64 + startY + i) + (startX);
+        console.log("Cuadrados totales usados incluye ", newTileId," ", usedTiles.includes(newTileId));
         if(startY + i >= verticalAxis.length || usedTiles.includes(newTileId)){
           console.error("No puedes colocar un barco en esta ubicación");
           return;
@@ -43,9 +45,7 @@ const Board = () => {
       }
     }
 
-    console.log("Cuadros usados en este barco:", occupiedTiles);
-    console.log("Cuadros totales usados:", usedTiles);
-    const newShip = { ...item, tileId: occupiedTiles }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
+    const newShip = { ...item, tileId: occupiedTiles, x: startX+1, y: startY+1 }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
 
     // Usa la función de actualización del estado anterior
     setShips((prevShips) => {
