@@ -31,7 +31,7 @@ const DropDownMobile = ({ user }) => {
         <Button
           variant=""
           color="text-white"
-          className="text-white bg-[#071952] hover:bg-[#0D2E5E] rounded-full px-4 py-2 border border-black"
+          className="text-white bg-[#071952] hover:bg-[#0D2E5E] px-4 py-2 border border-black w-full"
           disableRipple
         >
           Menú
@@ -43,7 +43,6 @@ const DropDownMobile = ({ user }) => {
         className="p-3"
         itemClasses={{
           base: [
-            "rounded-md",
             "text-[#1C3A7C]",
             "transition-opacity",
             "data-[hover=true]:text-foreground",

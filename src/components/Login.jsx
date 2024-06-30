@@ -8,6 +8,7 @@ import { login } from "../Redux/actions/AuthActions";
 const LoginComponent = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errorMessages, setErrorMessages] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
 
@@ -26,6 +27,14 @@ const LoginComponent = () => {
       email: formData.email,
       password: formData.password,
     };
+    if (!user.email) {
+      setErrorMessages({ email: "Email is required." });
+      return;
+    }
+    if (!user.password) {
+      setErrorMessages({ password: "Password is required." });
+      return;
+    }
     try {
       const response = await axios.post(
         "http://localhost:8080/api/auth/login",
@@ -47,7 +56,7 @@ const LoginComponent = () => {
       dispatch(login(account));
       navigate("/mm");
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data)
     }
   };
 
@@ -80,6 +89,9 @@ const LoginComponent = () => {
               className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+          {errorMessages.email && (
+            <p className="text-red-500">{errorMessages.email}</p>
+          )}
           <div className="flex flex-col relative">
             <label htmlFor="password" className="text-white">
               Password
@@ -100,6 +112,9 @@ const LoginComponent = () => {
               onClick={togglePasswordVisibility}
             />
           </div>
+          {errorMessages.password && (
+            <p className="text-red-500">{errorMessages.password}</p>
+          )}
           <div className="flex justify-center">
             <Button
               auto
