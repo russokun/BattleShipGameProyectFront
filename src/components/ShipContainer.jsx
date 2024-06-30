@@ -1,7 +1,9 @@
 import React from 'react';
 import Ship from './Ship';
 
-const ShipContainer = () => {
+const ShipContainer = ({ show }) => {
+    if (!show) return null;
+
     const ships = [
         { type: 'battleship', size: 4, horizontal: true, id: 1 },
         { type: 'submarine', size: 3, horizontal: true, id: 2 },
