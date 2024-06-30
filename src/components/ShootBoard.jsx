@@ -1,51 +1,61 @@
 import React, { useState } from 'react';
-import Cell from './Cell';
-import '../styles/board.css';
 
 const ShootBoard = () => {
-  const [shots, setShots] = useState([]);
-  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']; // Array de letras para las filas
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+  const numbers = Array.from({ length: 10 }, (_, i) => i + 1);
 
-  const handleCellClick = (row, col) => {
-    setShots([...shots, { row, col }]);
+  const [hits, setHits] = useState(new Set()); // Guarda los IDs de las celdas que son "hits"
+  const [misses, setMisses] = useState(new Set()); // Guarda los IDs de las celdas que son "misses"
+
+  const handleCellClick = (cellId) => {
+    // Aquí deberías implementar la lógica para determinar si es un hit o miss
+    // Por ahora, vamos a marcar todos los clics como "hits" para el ejemplo
+    setHits(new Set(hits).add(cellId));
+    // Para "misses", deberías tener una lógica similar
   };
 
-  const isCellShot = (row, col) => {
-    return shots.some(shot => shot.row === row && shot.col === col);
-  };
-
-  const renderBoard = () => {
-    let board = [];
-
-    // Agregar fila de números en la parte superior
-    let numberHeader = [<div key="corner" className="cell no-border"></div>]; // Celda esquina sin borde
-    for (let i = 1; i <= 10; i++) {
-    numberHeader.push(<div key={`num-${i}`} className="cell number no-border">{i}</div>);
-    }
-    board.push(<div key="number-header" className="board-row">{numberHeader}</div>);
-
-  // Cuando agregas la celda de letra al inicio de cada fila
-  for (let row = 0; row < 10; row++) {
-    let rowCells = [<div key={`letter-${letters[row]}`} className="cell letter no-border">{letters[row]}</div>]; // Celda de letra sin borde
-      for (let col = 0; col < 10; col++) {
-        rowCells.push(
-          <Cell
-            key={`${row}-${col}`}
-            isShot={isCellShot(row, col)}
-            onClick={() => handleCellClick(row, col)}
-          />
-        );
-      }
-      board.push(<div key={row} className="board-row">{rowCells}</div>);
-    }
-    return board;
-  };
-
-  return (
-    <div className="board">
-      {renderBoard()}
+  const renderHeaderRow = () => (
+    <div className="flex">
+      <div className="w-[50px] h-[50px]"></div> {/* Espacio vacío para la esquina superior izquierda */}
+      {numbers.map((number) => (
+        <div key={number} className="w-[50px] h-[50px] flex justify-center items-center font-bold text-xl">
+          {number}
+        </div>
+      ))}
     </div>
   );
+
+  const renderBoard = () => {
+    return (
+      <>
+        {renderHeaderRow()}
+        {letters.map((letter, rowIndex) => (
+          <div key={`row-${rowIndex}`} className="flex">
+            <div className="w-[50px] h-[50px] flex justify-center items-center font-bold text-xl">
+              {letter}
+            </div>
+            {numbers.map((number) => {
+              const cellId = `${letter}${number}`;
+              const isHit = hits.has(cellId);
+              const isMiss = misses.has(cellId);
+              return (
+                <div 
+                  key={cellId}
+                  id={cellId}
+                  className={`w-[50px] h-[50px] border border-gray-800 flex justify-center items-center cursor-pointer ${isHit ? 'bg-red-500 text-white' : ''} ${isMiss ? 'bg-gray-400' : ''}`}
+                  onClick={() => handleCellClick(cellId)}
+                >
+                  {isHit ? 'X' : ''}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </>
+    );
+  };
+
+  return <div className="flex flex-col items-center ">{renderBoard()}</div>;
 };
 
 export default ShootBoard;
