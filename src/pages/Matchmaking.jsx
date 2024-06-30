@@ -33,18 +33,6 @@ const Matchmaking = () => {
       };
     }, []); // El array vacío asegura que el efecto se ejecute solo una vez
 
-    // Función de limpieza que se ejecutará al desmontar el componente
-    return () => {
-      // Eliminar scripts del DOM
-      document.body.removeChild(script1);
-      // Opcional: Restablecer cualquier cambio realizado por los scripts del chatbot
-      const botonChatbot = document.querySelector('.bpw-widget-btn.bpw-floating-button');
-      if (botonChatbot) {
-        botonChatbot.style.zIndex = '';
-      }
-    };
-  }, []); // El array vacío asegura que el efecto se ejecute solo una vez
-
   const handleJoinClick = async () => {
     const { value: text } = await Swal.fire({
       title: 'Enter the party code:',
