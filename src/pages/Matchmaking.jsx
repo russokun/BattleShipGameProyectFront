@@ -7,17 +7,26 @@ import axios from 'axios';
 const Matchmaking = () => {
 
   useEffect(() => {
-    // Montar el script cuando el componente se monte
-    const script = document.createElement('script');
-    script.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js';
-    script.async = true;
-    document.body.appendChild(script);
+   // Crear e inyectar el primer script del chatbot
+      const script1 = document.createElement('script');
+      script1.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'; // Reemplaza con la URL real del primer script
+      script1.async = true;
+      // Inyectar el primer script
+      document.body.appendChild(script1);
 
-    // Opcional: Desmontar el script cuando el componente se desmonte
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+      // Función de limpieza que se ejecutará al desmontar el componente
+      return () => {
+        // Eliminar  scripts del DOM
+        document.body.removeChild(script1);
+        // Opcional: Restablecer cualquier cambio realizado por los scripts del chatbot
+        const botonChatbot = document.querySelector('.bpw-widget-btn.bpw-floating-button');
+        if (botonChatbot) {
+          botonChatbot.style.zIndex = '';
+        }
+      };
+    }, []); // El array vacío asegura que el efecto se ejecute solo una vez
+
+
 
   const info = useSelector(store => store.AuthReducer);
   console.log(info);
