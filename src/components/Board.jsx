@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tile from './Tile';
 import Ship from './Ship';
 
@@ -6,19 +6,53 @@ const horizontalAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 const verticalAxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 const Board = () => {
-  // Se inicializa como array vacío donde se guardarán los barcos como objetos
+  // Se inicializa como array vacío donde se guardarán los barcos como objetos, estos serán los barcos en el tablero
   const [ships, setShips] = useState([]);
-  console.log(ships);
+  const [usedTiles, setUsedTiles] = useState([]);
+  
+  useEffect(() => {
+    const newUsedTiles = ships.map(ship => ship.tileId).flat();
+    setUsedTiles(newUsedTiles);
+  }, [ships]);
+
+  console.log("Barcos en el tablero:", ships);
+  console.log("Cuadros totales usados:", usedTiles);
 
   // Cada vez que se ejecute onDrop se ejecuta la función handleDrop con los parametros que vienen desde el componente Tile
-  const handleDrop = (item, tileId, monitor) => {
-    console.log(tileId);
-    const newShip = { ...item, tileId }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
+  const handleDrop = (item, tileId) => {
+    const startY = tileId.charCodeAt(0) - 64; // Se obtiene el valor numérico del eje vertical
+    const startX = parseInt(tileId.slice(1)); // Se obtiene como número el valor numérico del eje horizontal 
+    let occupiedTiles = [];
+    console.log("X:", startX, "Y:", startY);
+
+    for (let i = 0; i < item.size; i++){
+      if (item.horizontal){
+        const newTileId = String.fromCharCode(64 + startY) + (startX + i);
+        console.log("Cuadrados totales usados incluye ", newTileId," ", usedTiles.includes(newTileId));
+        if(startX + i >= horizontalAxis.length || usedTiles.includes(newTileId)){
+          console.error("No puedes colocar un barco en esta ubicación");
+          return;
+        }
+        occupiedTiles.push(newTileId);
+      } else {
+        const newTileId = String.fromCharCode(64 + startY + i) + (startX);
+        console.log("Cuadrados totales usados incluye ", newTileId," ", usedTiles.includes(newTileId));
+        if(startY + i >= verticalAxis.length || usedTiles.includes(newTileId)){
+          console.error("No puedes colocar un barco en esta ubicación");
+          return;
+        }
+        occupiedTiles.push(newTileId);
+      }
+    }
+
+    const newShip = { ...item, tileId: occupiedTiles, x: startX+1, y: startY+1 }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
 
     // Usa la función de actualización del estado anterior
     setShips((prevShips) => {
-      // Elimina el barco en la nueva posición si ya hay uno
-      const updatedShips = prevShips.filter(ship => ship.tileId !== tileId && ship.id !== newShip.id);
+      // Elimina el barco en la nueva posición si ya hay uno y si el id de un barco ya existe en el array
+      const updatedShips = prevShips.filter(
+        ship => ship.id !== newShip.id
+      );
       // Añade el nuevo barco a la posición
       return [...updatedShips, newShip];
   });
@@ -29,10 +63,8 @@ const Board = () => {
   for (let i = 0; i < horizontalAxis.length; i++) {
     for (let j = 0; j < verticalAxis.length; j++) {
       const tileId = horizontalAxis[i] + verticalAxis[j];
-      const cordX = horizontalAxis[i];
-      const cordY = verticalAxis[j];
       // Crea un nuevo barco 
-      const shipInTile = ships.find((ship) => ship.tileId === tileId);
+      const shipInTile = ships.find((ship) => ship.tileId.includes(tileId));
 
       board.push(
         <Tile id={tileId} key={tileId} onDrop={handleDrop}>
@@ -40,8 +72,8 @@ const Board = () => {
             <Ship
               id={shipInTile.id}
               type={shipInTile.type}
-              x={cordX} // Propiedad con potencial uso
-              y={cordY} // Propiedad con potencial uso
+              x={0} // Propiedad con potencial uso
+              y={0} // Propiedad con potencial uso
               horizontal={shipInTile.horizontal}
               size={shipInTile.size}
             />

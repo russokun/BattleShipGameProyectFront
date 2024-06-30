@@ -1,10 +1,34 @@
 import React from 'react';
 import Swal from 'sweetalert2';
-import Chatbot from '../components/ChatBot';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const Matchmaking = () => {
-  const info = useSelector(store => store.AuthReducer)
+
+  useEffect(() => {
+   // Crear e inyectar el primer script del chatbot
+      const script1 = document.createElement('script');
+      script1.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'; // Reemplaza con la URL real del primer script
+      script1.async = true;
+      // Inyectar el primer script
+      document.body.appendChild(script1);
+
+      // Función de limpieza que se ejecutará al desmontar el componente
+      return () => {
+        // Eliminar  scripts del DOM
+        document.body.removeChild(script1);
+        // Opcional: Restablecer cualquier cambio realizado por los scripts del chatbot
+        const botonChatbot = document.querySelector('.bpw-widget-btn.bpw-floating-button');
+        if (botonChatbot) {
+          botonChatbot.style.zIndex = '';
+        }
+      };
+    }, []); // El array vacío asegura que el efecto se ejecute solo una vez
+
+
+
+  const info = useSelector(store => store.AuthReducer);
   console.log(info);
   const handleJoinClick = async () => {
     const { value: text } = await Swal.fire({
@@ -39,6 +63,28 @@ const Matchmaking = () => {
     }
   }
   
+  const handleCreateMatch = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/match/create', {}, {
+        headers: {
+          Authorization: `Bearer ${info.token}`
+        }
+      });
+      console.log(response.data);
+      Swal.fire({
+        title: 'Match Created',
+        text: response.data.partyCode,
+        icon: 'success'
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error',
+        text: error || 'An error occurred',
+        icon: 'error'
+      });
+    }
+  };
+
   return (
     <div
       className="flex flex-col justify-center items-center min-h-screen"
@@ -53,7 +99,7 @@ const Matchmaking = () => {
           <div className="flex flex-col items-center w-full mb-8 sm:mb-4">
             <button
               type="button"
-              className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm md:text-base px-6 py-3 md:px-8 md:py-4 text-center mb-4 w-full"
+              className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm md:text-base px-6 py-3 md:px-8 md:py-4 text-center mb-4 w-full" onClick={handleCreateMatch}
             >
               CREATE MATCH
             </button>
@@ -69,7 +115,6 @@ const Matchmaking = () => {
           </div>
         </div>
       </main>
-      <Chatbot />
     </div>
   );
 };
