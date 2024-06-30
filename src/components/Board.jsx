@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Tile from './Tile';
 import Ship from './Ship';
 
@@ -8,15 +8,18 @@ const verticalAxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 const Board = () => {
   // Se inicializa como array vacío donde se guardarán los barcos como objetos, estos serán los barcos en el tablero
   const [ships, setShips] = useState([]);
-  const [usedTiles, setUsedTiles] = useState([]);
-  
+  const shipsRef = useRef(ships);
+
   useEffect(() => {
-    const newUsedTiles = ships.map(ship => ship.tileId).flat();
-    setUsedTiles(newUsedTiles);
+    shipsRef.current = ships;
   }, [ships]);
+  
+  const getUsedTiles = (ships) => {
+    return ships.map(ship => ship.tileId).flat();
+  };
 
   console.log("Barcos en el tablero:", ships);
-  console.log("Cuadros totales usados:", usedTiles);
+  console.log("Cuadros totales usados:", getUsedTiles(ships));
 
   // Cada vez que se ejecute onDrop se ejecuta la función handleDrop con los parametros que vienen desde el componente Tile
   const handleDrop = (item, tileId) => {
@@ -25,11 +28,14 @@ const Board = () => {
     let occupiedTiles = [];
     console.log("X:", startX, "Y:", startY);
 
+    const usedTiles = getUsedTiles(shipsRef.current);
+    console.log("Cuadros totales usados dentro de handleDrop:", usedTiles);
+
     for (let i = 0; i < item.size; i++){
       if (item.horizontal){
         //Se obtiene el id del tile de la forma original que tenía pero se le suma i al eje horizontal si está en horizontal y si no, se le suma al vertical
         const newTileId = String.fromCharCode(64 + startY) + (startX + i); 
-        console.log("Cuadrados totales usados incluye ", newTileId," ", usedTiles.includes(newTileId));
+        console.log("Cuadrados totales usados ",usedTiles," incluye ", newTileId," ", usedTiles.includes(newTileId));
         if(startX + i > horizontalAxis.length || usedTiles.includes(newTileId)){
           console.error("No puedes colocar un barco en esta ubicación");
           return;
