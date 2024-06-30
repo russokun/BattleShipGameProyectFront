@@ -13,7 +13,7 @@ const Board = () => {
   useEffect(() => {
     shipsRef.current = ships;
   }, [ships]);
-  
+
   const getUsedTiles = (ships) => {
     return ships.map(ship => ship.tileId).flat();
   };
@@ -26,25 +26,29 @@ const Board = () => {
     const startY = tileId.charCodeAt(0) - 64; // Se obtiene el valor numérico del eje vertical
     const startX = parseInt(tileId.slice(1)); // Se obtiene como número el valor numérico del eje horizontal 
     let occupiedTiles = [];
-    console.log("X:", startX, "Y:", startY);
-
     const usedTiles = getUsedTiles(shipsRef.current);
-    console.log("Cuadros totales usados dentro de handleDrop:", usedTiles);
 
-    for (let i = 0; i < item.size; i++){
-      if (item.horizontal){
+    console.log("X:", startX, "Y:", startY);
+    console.log("Barco en horizontal:", item.horizontal);
+
+    for (let i = 0; i < item.size; i++) {
+      if (item.horizontal) {
         //Se obtiene el id del tile de la forma original que tenía pero se le suma i al eje horizontal si está en horizontal y si no, se le suma al vertical
-        const newTileId = String.fromCharCode(64 + startY) + (startX + i); 
-        console.log("Cuadrados totales usados ",usedTiles," incluye ", newTileId," ", usedTiles.includes(newTileId));
-        if(startX + i > horizontalAxis.length || usedTiles.includes(newTileId)){
+        const newTileId = String.fromCharCode(64 + startY) + (startX + i);
+
+        console.log("Cuadrados totales usados ", usedTiles, " incluye ", newTileId, " ", usedTiles.includes(newTileId));
+
+        if (startX + i > horizontalAxis.length || usedTiles.includes(newTileId)) {
           console.error("No puedes colocar un barco en esta ubicación");
           return;
         }
         occupiedTiles.push(newTileId);
       } else {
         const newTileId = String.fromCharCode(64 + startY + i) + (startX);
-        console.log("Cuadrados totales usados incluye ", newTileId," ", usedTiles.includes(newTileId));
-        if(startY + i > verticalAxis.length || usedTiles.includes(newTileId)){
+
+        console.log("Cuadrados totales usados incluye ", newTileId, " ", usedTiles.includes(newTileId));
+
+        if (startY + i > verticalAxis.length || usedTiles.includes(newTileId)) {
           console.error("No puedes colocar un barco en esta ubicación");
           return;
         }
@@ -52,7 +56,7 @@ const Board = () => {
       }
     }
 
-    const newShip = { ...item, tileId: occupiedTiles, x: startX+1, y: startY+1 }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
+    const newShip = { ...item, tileId: occupiedTiles, x: startX + 1, y: startY + 1 }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
 
     // Usa la función de actualización del estado anterior
     setShips((prevShips) => {
@@ -62,7 +66,7 @@ const Board = () => {
       );
       // Añade el nuevo barco a la posición
       return [...updatedShips, newShip];
-  });
+    });
   };
 
   let board = [];
@@ -73,20 +77,25 @@ const Board = () => {
       // Crea un nuevo barco 
       const shipInTile = ships.find((ship) => ship.tileId.includes(tileId));
 
-      board.push(
-        <Tile id={tileId} key={tileId} onDrop={handleDrop}>
-          {shipInTile && ( // Si hay un barco en la celda se renderizará el componente Ship
-            <Ship
-              id={shipInTile.id}
-              type={shipInTile.type}
-              x={0} // Propiedad con potencial uso
-              y={0} // Propiedad con potencial uso
-              horizontal={shipInTile.horizontal}
-              size={shipInTile.size}
-            />
-          )}
-        </Tile>
-      );
+      if (shipInTile && shipInTile.tileId[0] === tileId) {
+        board.push(
+          <Tile id={tileId} key={tileId} onDrop={handleDrop}>
+            {shipInTile && ( // Si hay un barco en la celda se renderizará el componente Ship
+              <Ship
+                id={shipInTile.id}
+                type={shipInTile.type}
+                x={0} // Propiedad con potencial uso
+                y={0} // Propiedad con potencial uso
+                horizontal={shipInTile.horizontal}
+                size={shipInTile.size}
+              />
+            )}
+          </Tile>
+        );
+      } else {
+        board.push(<Tile id={tileId} key={tileId} onDrop={handleDrop} />
+        );
+      }
     }
   }
 
@@ -111,7 +120,7 @@ const Board = () => {
       </div>
 
       {/* El tablero de juego */}
-      <div className="col-start-2 col-end-12 row-start-2 row-end-12 grid grid-cols-10 grid-rows-10 border-2 border-white bg-opacity-0 w-[500px] h-[500px]">
+      <div className="relative col-start-2 col-end-12 row-start-2 row-end-12 grid grid-cols-10 grid-rows-10 border-2 border-white bg-opacity-0 w-[500px] h-[500px]">
         {board}
       </div>
     </div>

@@ -16,7 +16,7 @@ const Tile = ({ children, id, onDrop }) => {
     <div
       ref={drop}
       id={id}
-      className={'flex justify-center items-center w-[50px] h-[50px] border-[0.5px] border-white' + (isOver ? ' bg-blue-200' : '')}
+      className={'relative inline w-[50px] h-[50px] border-[0.5px] border-white' + (isOver ? ' bg-blue-200' : '')}
     >{children}</div>
   );
 };
