@@ -27,7 +27,8 @@ const Board = () => {
 
     for (let i = 0; i < item.size; i++){
       if (item.horizontal){
-        const newTileId = String.fromCharCode(64 + startY) + (startX + i);
+        //Se obtiene el id del tile de la forma original que tenía pero se le suma i al eje horizontal si está en horizontal y si no, se le suma al vertical
+        const newTileId = String.fromCharCode(64 + startY) + (startX + i); 
         console.log("Cuadrados totales usados incluye ", newTileId," ", usedTiles.includes(newTileId));
         if(startX + i >= horizontalAxis.length || usedTiles.includes(newTileId)){
           console.error("No puedes colocar un barco en esta ubicación");
