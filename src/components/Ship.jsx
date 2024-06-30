@@ -14,7 +14,6 @@ const Ship = ({ type, cords, horizontal, size, id, isReady }) => {
 
 
     let sizeClass;
-    if (horizontal) {
         switch (type) {
             case 'submarine':
                 sizeClass = "w-[149px] h-[50px]";
@@ -28,22 +27,6 @@ const Ship = ({ type, cords, horizontal, size, id, isReady }) => {
             default:
                 sizeClass = "w-[50px] h-[50px]";
                 break;
-        }
-    } else {
-        switch (type) {
-            case 'submarine':
-                sizeClass = "w-[50px] h-[150px]";
-                break;
-            case 'cruiser':
-                sizeClass = "w-[50px] h-[100px]";
-                break;
-            case 'battleship':
-                sizeClass = "w-[50px] h-[200px]";
-                break;
-            default:
-                sizeClass = "w-[50px] h-[50px]";
-                break;
-        }
     }
 
     return (
@@ -52,7 +35,7 @@ const Ship = ({ type, cords, horizontal, size, id, isReady }) => {
             ref={drag}
             className={sizeClass + ' z-10 rounded-md opacity-100 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '')}
         >
-        <ShipImage ship={type} size={sizeClass} />
+        <ShipImage ship={type} size={sizeClass} horizontal={horizontal}/>
         </div>
     );
 };
