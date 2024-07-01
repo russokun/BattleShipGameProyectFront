@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 
-const Tile = ({ children, id, onDrop, isReady }) => {
+const Tile = ({ children, id, onDrop, isReady, isHit, isMiss }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'ship',
     drop: (item) => {
@@ -19,7 +19,7 @@ const Tile = ({ children, id, onDrop, isReady }) => {
     <div
       ref={drop}
       id={id}
-      className={'relative inline w-[30px] h-[30px] md:w-[50px] md:h-[50px] border-[0.5px] border-white' + (isOver ? ' bg-blue-200' : '')}
+      className={'relative inline w-[30px] h-[30px] md:w-[50px] md:h-[50px] border-[0.5px] border-white' + (isOver ? ' bg-blue-200' : '') + (isHit ? ' bg-red-500' : '') + (isMiss ? ' bg-gray-400' : '')}
     >{children}</div>
   );
 };
