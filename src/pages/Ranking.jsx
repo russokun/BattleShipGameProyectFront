@@ -9,7 +9,7 @@ export const Ranking = () => {
   useEffect(() => {
     const fetchRanking = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/ranking', {
+        const response = await axios.get('https://battleshipgame-6yqq.onrender.com/api/ranking', {
           headers: {
             Authorization: `Bearer ${token}`
           }

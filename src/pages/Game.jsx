@@ -19,7 +19,7 @@ const Game = () => {
 
   useEffect(() => {
     const intervalID = setInterval(() => {
-      axios.get('http://localhost:8080/api/match/current', {
+      axios.get('https://battleshipgame-6yqq.onrender.com/api/match/current', {
         headers: {
           Authorization: `Bearer ${token}`
         }

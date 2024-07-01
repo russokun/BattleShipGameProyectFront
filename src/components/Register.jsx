@@ -78,7 +78,7 @@ const RegisterComponent = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/register",
+        "https://battleshipgame-6yqq.onrender.com/api/auth/register",
         user
       );
       if (response.status === 201) {

@@ -25,7 +25,7 @@ const DropDownMobile = ({ user }) => {
         base: "before:bg-white",
         content: "p-0 border-small border-divider border-black bg-white bg-opacity-100",
       }}
-      dropdownStyle={{ minWidth: '100%' }}
+      dropdownstyle={{ minWidth: '100%' }}
     >
       <DropdownTrigger>
         <Button

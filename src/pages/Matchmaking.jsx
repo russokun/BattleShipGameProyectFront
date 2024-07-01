@@ -62,7 +62,7 @@ const Matchmaking = () => {
 
     if (text) {
       try {
-        const response = await axios.post('http://localhost:8080/api/match/join', { partyCode: text }, {
+        const response = await axios.post('https://battleshipgame-6yqq.onrender.com/api/match/join', { partyCode: text }, {
           headers: {
             Authorization: `Bearer ${info.token}`
           }
@@ -87,7 +87,7 @@ const Matchmaking = () => {
 
   const handleCreateMatch = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/match/create', {}, {
+      const response = await axios.post('https://battleshipgame-6yqq.onrender.com/api/match/create', {}, {
         headers: {
           Authorization: `Bearer ${info.token}`
         }

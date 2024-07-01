@@ -37,13 +37,13 @@ const LoginComponent = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        "https://battleshipgame-6yqq.onrender.com/api/auth/login",
         user
       );
       let token = response.data;
       console.log(response);
       const responseCurrent = await axios.get(
-        "http://localhost:8080/api/auth/current",
+        "https://battleshipgame-6yqq.onrender.com/api/auth/current",
         {
           headers: {
             Authorization: `Bearer ${token}`,

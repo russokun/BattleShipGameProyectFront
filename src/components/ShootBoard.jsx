@@ -27,7 +27,7 @@ const ShootBoard = ({ enemyPlayer, currentPlayer }) => {
     console.log('Disparo a:', newCords);
 
     if (youTurn) {
-      axios.post('http://localhost:8080/api/shoot/' + enemyBoard, newCords, {
+      axios.post('https://battleshipgame-6yqq.onrender.com/api/shoot/' + enemyBoard, newCords, {
         headers: {
           Authorization: `Bearer ${token}`
         }

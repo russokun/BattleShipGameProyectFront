@@ -13,7 +13,7 @@ const Waiting = () => {
 
   const waitingOpponent = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/match/current", {
+      const response = await axios.get("https://battleshipgame-6yqq.onrender.com/api/match/current", {
         headers: {
           Authorization: `Bearer ${info.token}`
         }

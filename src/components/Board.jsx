@@ -93,7 +93,7 @@ const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer, coordin
         }));
     
         console.log('Datos de barcos:', ships);
-        axios.post('http://localhost:8080/api/board/' + boardID + '/ships', {ships}, {
+        axios.post('https://battleshipgame-6yqq.onrender.com/api/board/' + boardID + '/ships', {ships}, {
           headers: {
             Authorization: `Bearer ${token}`
           }
