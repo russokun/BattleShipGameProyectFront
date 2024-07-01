@@ -18,10 +18,10 @@ const Ship = ({ type, cords, tileId, horizontal, size, id, isReady, onClick }) =
     if (horizontal) {
         switch (type) {
             case 'battleship':
-                sizeClass = "md:w-[199px] md:h-[50px] w-[90px] h-[30px]";
+                sizeClass = "md:w-[199px] md:h-[50px] w-[120px] h-[30px]";
                 break;
             case 'submarine':
-                sizeClass = "md:w-[149px] md:h-[50px] w-[120px] h-[30px]";
+                sizeClass = "md:w-[149px] md:h-[50px] w-[90px] h-[30px]";
                 break;
             case 'cruiser':
                 sizeClass = "md:w-[99px] md:h-[50px] w-[60px] h-[30px]";
@@ -33,10 +33,10 @@ const Ship = ({ type, cords, tileId, horizontal, size, id, isReady, onClick }) =
     } else {
         switch (type) {
             case 'battleship':
-                sizeClass = "md:w-[50px] md:h-[199px] w-[30px] h-[90px]";
+                sizeClass = "md:w-[50px] md:h-[199px] w-[30px] h-[120px]";
                 break;
             case 'submarine':
-                sizeClass = "md:w-[50px] md:h-[149px] w-[30px] h-[120px]";
+                sizeClass = "md:w-[50px] md:h-[149px] w-[30px] h-[90px]";
                 break;
             case 'cruiser':
                 sizeClass = "md:w-[50px] md:h-[99px] w-[30px] h-[60px]";

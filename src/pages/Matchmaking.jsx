@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Matchmaking = () => {
   const info = useSelector(store => store.AuthReducer);
   const navigate = useNavigate();
+  console.log(info);
 
   useEffect(() => {
     // Crear e inyectar el primer script del chatbot

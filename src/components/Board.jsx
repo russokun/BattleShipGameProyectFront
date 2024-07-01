@@ -10,10 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 const horizontalAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 const verticalAxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-const Board = ({ setShowShipContainer }) => {
+const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer }) => {
   // Se inicializa como array vacío donde se guardarán los barcos como objetos, estos serán los barcos en el tablero
-  const [ships, setShips] = useState([]);
-  const shipsRef = useRef(ships);
+  const [boardShips, setBoardShips] = useState([]);
+  const shipsRef = useRef(boardShips);
   const token = useSelector(store => store.AuthReducer.token);
   const [isReady, setIsReady] = useState(false);
   const [keyForRerender, setKeyForRerender] = useState(0); // Clave para forzar un re-render
@@ -47,13 +47,13 @@ const Board = ({ setShowShipContainer }) => {
   }
 
   useEffect(() => {
-    shipsRef.current = ships;
-  }, [ships]);
+    shipsRef.current = boardShips;
+  }, [boardShips]);
 
   useEffect(() => {
     // Forzar re-render al cambiar isReady
     if (isReady) {
-      setShips([...ships]);
+      setBoardShips([...boardShips]);
       setKeyForRerender(prevKey => prevKey + 1); // Incrementar la clave para forzar un re-render completo
     }
   }, [isReady]);
@@ -64,6 +64,7 @@ const Board = ({ setShowShipContainer }) => {
 
   // Función para enviar los datos de los barcos
   const sendShipData = () => {
+    const boardID = currentPlayer.id
     if (shipsRef.current.length < 10) {
       Swal.fire({
         icon: 'error',
@@ -86,23 +87,23 @@ const Board = ({ setShowShipContainer }) => {
           text: " Your ships are in position.",
           icon: "success"
         });
-        const shipsData = shipsRef.current.map(ship => ({ // Se mapea el array de barcos para que contenga el tipo y las coordenadas
+        const ships = shipsRef.current.map(ship => ({ // Se mapea el array de barcos para que contenga el tipo y las coordenadas
           type: ship.type,
           coordinates: ship.cords,
         }));
     
-        console.log('Datos de barcos:', shipsData);
-        // axios.post('http://localhost:8080/api/ranking', shipsData, {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`
-        //   }
-        // })
-        //   .then(response => {
-        //     console.log('Datos de barcos enviados correctamente:', response.data);
-        //   })
-        //   .catch(error => {
-        //     console.error('Error al enviar datos de barcos:', error);
-        //   });
+        console.log('Datos de barcos:', ships);
+        axios.post('http://localhost:8080/api/board/' + boardID + '/ships', ships, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+          .then(response => {
+            console.log('Datos de barcos enviados correctamente:', response.data);
+          })
+          .catch(error => {
+            console.error('Error al enviar datos de barcos:', error);
+          });
     
         setIsReady(true);
         setShowShipContainer(false);
@@ -179,7 +180,7 @@ const Board = ({ setShowShipContainer }) => {
 
     const newShip = { ...item, tileId: occupiedTiles, cords: occupiedCords }; // Crea un nuevo objeto con las propiedades de item y le añade la propiedad tileId
     // Usa la función de actualización del estado anterior
-    setShips((prevShips) => {
+    setBoardShips((prevShips) => {
       // Elimina el barco en la nueva posición si ya hay uno y si el id de un barco ya existe en el array
       const updatedShips = prevShips.filter(
         ship => ship.id !== newShip.id
@@ -198,10 +199,6 @@ const Board = ({ setShowShipContainer }) => {
       return;
     }
   
-    // Simula el drag and drop al hacer clic en un barco
-    console.log('Barco clickeado:', updatedShip);
-    
-  
     // Forzar re-render para actualizar la vista
     setKeyForRerender(prevKey => prevKey + 1);
   };
@@ -212,7 +209,7 @@ const Board = ({ setShowShipContainer }) => {
     for (let j = 0; j < verticalAxis.length; j++) {
       const tileId = horizontalAxis[i] + verticalAxis[j];
       // Crea un nuevo barco 
-      const shipInTile = ships.find((ship) => ship.tileId.includes(tileId));
+      const shipInTile = boardShips.find((ship) => ship.tileId.includes(tileId));
       if (shipInTile && shipInTile.tileId[0] === tileId) {
         board.push(
           <Tile id={tileId} key={tileId} onDrop={handleDrop} isReady={isReady}>
