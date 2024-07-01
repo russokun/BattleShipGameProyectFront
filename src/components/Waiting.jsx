@@ -24,6 +24,7 @@ const Waiting = () => {
       setUserInfo(infoUser);
       setOpponentInfo(infoOpponent);
       setPartyCode(partyCode);
+      console.log(infoOpponent);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -45,17 +46,21 @@ const Waiting = () => {
 
   useEffect(() => {
     waitingOpponent();
-  }, []);
+
+    const intervalId = setInterval(() => {
+      waitingOpponent();
+    }, 3000); 
+    return () => clearInterval(intervalId); 
+   }, []);
 
   useEffect(() => {
     if (userInfo && opponentInfo) {
+      const intervalId = setInterval(() => {
       navigate("/game");
+      }, 3000)
+     return () => clearInterval(intervalId); 
     }
   }, [userInfo, opponentInfo, navigate]);
-
-  useEffect(() => {
-    waitingOpponent();
-  });
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen" style={{ backgroundImage: `url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWM0Zmx4bnVobnpnd2I5d3V4NWxkZjg0MDd1NGVmamdqdGFwNHgxYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/D7YVWFBpm36UDWTM9q/giphy.gif')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
@@ -77,7 +82,7 @@ const Waiting = () => {
             <div className="p-6 bg-white rounded-lg shadow-lg w-full md:w-96">
               <h2 className="text-xl font-bold mb-2">Your Info</h2>
               <p><strong>Username:</strong> {userInfo.username}</p>
-              <p><strong>Status:</strong> {userInfo.type === 'WAITING_FOR_OPPONENT' ? 'Waiting for opponent' : userInfo.type.toLowerCase()}</p>
+              <p><strong>Score:</strong> {userInfo.account.score}</p>
             </div>
           ) : (
             <div className="p-6 bg-white rounded-lg shadow-lg w-full md:w-96">
@@ -89,7 +94,7 @@ const Waiting = () => {
             <div className="p-6 bg-white rounded-lg shadow-lg w-full md:w-96">
               <h2 className="text-xl font-bold mb-2">Opponent Info</h2>
               <p><strong>Username:</strong> {opponentInfo.username}</p>
-              <p><strong>Email:</strong> {opponentInfo.email}</p>
+              <p><strong>Score:</strong> {opponentInfo.account.score}</p>
             </div>
           ) : (
             <div className="p-6 bg-white rounded-lg shadow-lg w-full md:w-96">

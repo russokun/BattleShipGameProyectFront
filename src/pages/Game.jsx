@@ -30,22 +30,21 @@ const Game = () => {
         console.log(error);
       });
 
-  }, [])
-
-  useEffect(() => {
-    if (data.playerMatches) {
-      console.log('data ',data);
-      currentPlayer = data.playerMatches.find(player => player.username === info.user.username);
-      enemyPlayer = data.playerMatches.find(player => player.username !== info.user.username);
-      score1=currentPlayer.account.score;
-      score2=enemyPlayer.account.score;
-      username1=currentPlayer.username;
-      username2=enemyPlayer.username;
-    }
   }, [data])
 
+  if (data.playerMatches) {
+    console.log('data ',data);
+    currentPlayer = data.playerMatches.find(player => player.username === info.user.username);
+    enemyPlayer = data.playerMatches.find(player => player.username !== info.user.username);
+    score1=currentPlayer.account.score;
+    score2=enemyPlayer.account.score;
+    username1=currentPlayer.username;
+    username2=enemyPlayer.username;
+  }
+ 
+
   return (
-    <div className="flex items-center relative items-center justify-center gap-10 w-full min-h-screen bg-cover bg-[url('/max.gif')] p-6">
+    <div className="flex items-center relative flex-col justify-center gap-10 w-full min-h-screen bg-cover bg-[url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/5d76fa121027765.60bf39d03ce0a.gif')]">
       <div className='flex flex-wrap md:gap-5 gap-20 flex-col md:flex-row'>
         <div className='flex relative flex-col justify-center items-center md:flex-row flex-wrap'>
           <ShipContainer show={showShipContainer} />
@@ -55,7 +54,7 @@ const Game = () => {
           <ShootBoard />
         </div>
       </div>
-      <div className='flex w-[90vw] h-[100px] md:w-[60vw] justify-center items-center border-blue-500 border border-white rounded-md mb-8 backdrop-blur'>
+      <div className='flex w-[90vw] h-[100px] md:w-[60vw] justify-center items-center  border border-white rounded-md mb-8 backdrop-blur'>
         <div className='flex flex-col border border-white rounded-md h-[100%] w-[50%] p-4 '>
           <div className='flex justify-between'>
             <h2 className='font-bold'>You: </h2>
