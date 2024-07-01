@@ -10,13 +10,14 @@ import Matchmaking from './pages/Matchmaking';
 import Game from './pages/Game';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-
+import Waiting from './components/Waiting';
 
 const AppRoutes = () => {
   const location = useLocation();
-  
+
   const isAuthRoute = location.pathname === '/login' || location.pathname === '/register';
-  
+  const isWaitingRoute = location.pathname === '/waiting';
+
   return (
     <div>
       {isAuthRoute ? (
@@ -25,16 +26,24 @@ const AppRoutes = () => {
           <Route path='/login' element={<Logincomponent />} />
         </Routes>
       ) : (
-        <MainLayout>
-          <Routes>
-            <Route path='/' element={<Landing />} />
-            <Route path='/mm' element={<Matchmaking />} />
-            <Route path='/ranking' element={<Ranking />} />
-            {/* Otras rutas con MainLayout */}
-            {/* <Route path='/shoot' element={<ShootBoard />} /> */}
-            <Route path='/game' element={<Game />} />
-          </Routes>
-        </MainLayout>
+        <>
+          {isWaitingRoute ? (
+            <Routes>
+              <Route path='/waiting' element={<Waiting />} />
+            </Routes>
+          ) : (
+            <MainLayout>
+              <Routes>
+                <Route path='/' element={<Landing />} />
+                <Route path='/mm' element={<Matchmaking />} />
+                <Route path='/ranking' element={<Ranking />} />
+                {/* Otras rutas con MainLayout */}
+                {/* <Route path='/shoot' element={<ShootBoard />} /> */}
+                <Route path='/game' element={<Game />} />
+              </Routes>
+            </MainLayout>
+          )}
+        </>
       )}
     </div>
   );
@@ -44,7 +53,7 @@ const App = () => {
   return (
     <Router>
       <DndProvider backend={HTML5Backend}>
-      <AppRoutes />
+        <AppRoutes />
       </DndProvider>
     </Router>
   );

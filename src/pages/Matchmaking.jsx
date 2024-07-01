@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Matchmaking = () => {
   const info = useSelector(store => store.AuthReducer);
+  const navigate = useNavigate();
 
   useEffect(() => {
-   // Crear e inyectar el primer script del chatbot
-      const script1 = document.createElement('script');
-      script1.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'; // Reemplaza con la URL real del primer script
-      script1.async = true;
+    // Crear e inyectar el primer script del chatbot
+    const script1 = document.createElement('script');
+    script1.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'; // Reemplaza con la URL real del primer script
+    script1.async = true;
 
-      const script2 = document.createElement('script');
-      script2.src = "https://mediafiles.botpress.cloud/eee5251d-0f6a-4452-b0d3-daf036697196/webchat/config.js"; 
-      script2.async = true;
+    const script2 = document.createElement('script');
+    script2.src = "https://mediafiles.botpress.cloud/eee5251d-0f6a-4452-b0d3-daf036697196/webchat/config.js"; 
+    script2.async = true;
 
-      // Inyectar el primer script
-      document.body.appendChild(script1);
-      document.body.appendChild(script2);
+    // Inyectar el primer script
+    document.body.appendChild(script1);
+    document.body.appendChild(script2);
 
-      // Función de limpieza que se ejecutará al desmontar el componente
-      return () => {
-        // Eliminar  scripts del DOM
-        document.body.removeChild(script1);
-        document.body.removeChild(script2);
-        // Opcional: Restablecer cualquier cambio realizado por los scripts del chatbot
-        const botonChatbot = document.querySelector('.bpw-widget-btn.bpw-floating-button');
-        if (botonChatbot) {
-          botonChatbot.style.zIndex = '';
-        }
-      };
-    }, []); // El array vacío asegura que el efecto se ejecute solo una vez
+    // Función de limpieza que se ejecutará al desmontar el componente
+    return () => {
+      // Eliminar scripts del DOM
+      document.body.removeChild(script1);
+      document.body.removeChild(script2);
+      // Opcional: Restablecer cualquier cambio realizado por los scripts del chatbot
+      const botonChatbot = document.querySelector('.bpw-widget-btn.bpw-floating-button');
+      if (botonChatbot) {
+        botonChatbot.style.zIndex = '';
+      }
+    };
+  }, []); // El array vacío asegura que el efecto se ejecute solo una vez
 
   const handleJoinClick = async () => {
     const { value: text } = await Swal.fire({
@@ -70,6 +72,8 @@ const Matchmaking = () => {
           text: 'Joining to the battle',
           icon: 'success'
         });
+      navigate('/waiting');
+        
       } catch (error) {
         Swal.fire({
           title: 'Error',
@@ -87,30 +91,19 @@ const Matchmaking = () => {
           Authorization: `Bearer ${info.token}`
         }
       });
-      const createdPartyCode = response.data.partyCode;
-      Swal.fire({
+
+      const result = await Swal.fire({
         title: 'Match Created',
-        html: `
-          <p>Party Code: <strong>${createdPartyCode}</strong></p>
-          <button id="copy-button" class="swal2-confirm swal2-styled">Copy Code</button>
-        `,
         icon: 'success',
-        didRender: () => {
-          document.getElementById('copy-button').addEventListener('click', () => {
-            navigator.clipboard.writeText(createdPartyCode).then(() => {
-              Swal.fire({
-                title: 'Copied!',
-                text: 'Party code copied to clipboard',
-                icon: 'success'
-              });
-            });
-          });
-        }
       });
+
+      if (result.isConfirmed) {
+        navigate('/waiting');
+      }
     } catch (error) {
       Swal.fire({
         title: 'Error',
-        text: error || 'An error occurred',
+        text: 'Something went wrong',
         icon: 'error'
       });
     }
@@ -149,6 +142,6 @@ const Matchmaking = () => {
       </main>
     </div>
   );
-};
+}
 
 export default Matchmaking;
