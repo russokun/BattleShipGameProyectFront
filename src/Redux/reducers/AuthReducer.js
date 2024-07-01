@@ -14,6 +14,7 @@ const initialState = {
     fName: '',
     lName: '',
     password: '',
+    isAdmin: false,
     score: "" // o 0 ?
   }
 };
@@ -27,6 +28,7 @@ const AuthReducer = createReducer(initialState, (builder) => {
           email: action.payload.email,
           name: action.payload.name,
           username: action.payload.username,
+          isAdmin: action.payload.isAdmin,
           score: action.payload.score
         },
         token: action.payload.token,

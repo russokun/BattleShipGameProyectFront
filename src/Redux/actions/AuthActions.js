@@ -6,6 +6,7 @@ export const login = createAction("LOGIN", (user) => {
     email: user.email,
     name: user.fName + " " + user.lName,
     username: user.username,
+    isAdmin: user.isAdmin,
     score: user.score,
     token: user.token,
     expiresIn: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
