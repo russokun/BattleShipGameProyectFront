@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const horizontalAxis = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 const verticalAxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer }) => {
+const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer, coordinates }) => {
   // Se inicializa como array vacío donde se guardarán los barcos como objetos, estos serán los barcos en el tablero
   const [boardShips, setBoardShips] = useState([]);
   const shipsRef = useRef(boardShips);
@@ -93,7 +93,7 @@ const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer }) => {
         }));
     
         console.log('Datos de barcos:', ships);
-        axios.post('http://localhost:8080/api/board/' + boardID + '/ships', ships, {
+        axios.post('http://localhost:8080/api/board/' + boardID + '/ships', {ships}, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -107,14 +107,13 @@ const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer }) => {
     
         setIsReady(true);
         setShowShipContainer(false);
-        // console.log("Ready", isReady);
       }
     });
 
   };
 
-  // console.log("Barcos en el tablero:", ships);
-  // console.log("Cuadros totales usados:", getUsedTiles(ships));
+  console.log("Barcos en el tablero:", boardShips);
+  console.log("Cuadros totales usados:", getUsedTiles(boardShips));
 
   // Cada vez que se ejecute onDrop se ejecuta la función handleDrop con los parametros que vienen desde el componente Tile
   const handleDrop = (item, tileId) => {
@@ -142,13 +141,11 @@ const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer }) => {
 
         if (!currentShip) {
           if (startX + i > horizontalAxis.length || usedTiles.includes(newTileId)) {
-            console.error("No puedes colocar un barco en esta ubicación");
             errorToastify();
             return true;
           }
         } else {
           if (startX + i > horizontalAxis.length || (usedTiles.includes(newTileId) && !currentShipTiles.includes(newTileId))) {
-            console.error("No puedes colocar un barco en esta ubicación");
             errorToastify();
             return true;
           }
@@ -162,13 +159,11 @@ const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer }) => {
 
         if (!currentShip) {
           if (startY + i > verticalAxis.length || usedTiles.includes(newTileId)) {
-            console.error("No puedes colocar un barco en esta ubicación");
             errorToastify();
             return true;
           }
         } else {
           if (startY + i > verticalAxis.length || (usedTiles.includes(newTileId) && !currentShipTiles.includes(newTileId))) {
-            console.error("No puedes colocar un barco en esta ubicación");
             errorToastify();
             return true;
           }
@@ -210,9 +205,11 @@ const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer }) => {
       const tileId = horizontalAxis[i] + verticalAxis[j];
       // Crea un nuevo barco 
       const shipInTile = boardShips.find((ship) => ship.tileId.includes(tileId));
+      const isHit = coordinates.includes(tileId) && getUsedTiles(boardShips).includes(tileId);
+      const isMiss = coordinates.includes(tileId) && !getUsedTiles(boardShips).includes(tileId);
       if (shipInTile && shipInTile.tileId[0] === tileId) {
         board.push(
-          <Tile id={tileId} key={tileId} onDrop={handleDrop} isReady={isReady}>
+          <Tile id={tileId} key={tileId} onDrop={handleDrop} isReady={isReady} isHit={isHit} isMiss={isMiss}>
             {shipInTile && ( // Si hay un barco en la celda se renderizará el componente Ship
               <Ship
                 id={shipInTile.id}
@@ -227,7 +224,7 @@ const Board = ({ setShowShipContainer, data, enemyPlayer, currentPlayer }) => {
           </Tile>
         );
       } else {
-        board.push(<Tile id={tileId} key={tileId} onDrop={handleDrop} isReady={isReady} />
+        board.push(<Tile id={tileId} key={tileId} onDrop={handleDrop} isReady={isReady} isHit={isHit} isMiss={isMiss} />
         );
       }
     }

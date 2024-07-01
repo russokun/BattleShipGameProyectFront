@@ -37,7 +37,7 @@ const ShipImage = ({ ship, size, horizontal }) => {
     }
 
     return (
-        <img className={size + ' object-contain '} src={shipImage} alt="" />
+        <img className={size + ' object-contain z-20'} src={shipImage} alt="" />
     )
 }
 

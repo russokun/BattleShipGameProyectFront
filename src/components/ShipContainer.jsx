@@ -20,7 +20,7 @@ const ShipContainer = ({ show }) => {
     return (
         <div className="flex relative flex-wrap md:flex-row flex-col items-start p-4 rounded-md backdrop-blur border-[0.1px] border-white md:h-[450px] md:w-[210px] h-[160px] w-[90vw] md:mt-[70px] mb-8">
             {ships.map((ship, index) => (
-                <div key={index} className="flex items-center space-x-2">
+                <div key={index} className="flex relative items-center space-x-2">
                     <Ship id={ship.id} type={ship.type} size={ship.size} horizontal={ship.horizontal}/>
                     <div className="text-lg font-bold"></div>
                 </div>

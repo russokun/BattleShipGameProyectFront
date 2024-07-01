@@ -52,7 +52,7 @@ const Ship = ({ type, cords, tileId, horizontal, size, id, isReady, onClick }) =
             id={id}
             ref={drag}
             onClick={onClick}
-            className={sizeClass + ' z-10 rounded-md opacity-100 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '')}
+            className={sizeClass + ' z-20 rounded-md opacity-100 cursor-pointer' + (isDragging ? ' border-4 border-blue-500' : '') + (isReady ? ' absolute' : '')}
         >
             <ShipImage ship={type} size={sizeClass} horizontal={horizontal} />
         </div>
