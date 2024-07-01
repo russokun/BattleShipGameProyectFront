@@ -19,7 +19,7 @@ const Tile = ({ children, id, onDrop, isReady }) => {
     <div
       ref={drop}
       id={id}
-      className={'relative inline w-[50px] h-[50px] border-[0.5px] border-white' + (isOver ? ' bg-blue-200' : '')}
+      className={'relative inline w-[30px] h-[30px] md:w-[50px] md:h-[50px] border-[0.5px] border-white' + (isOver ? ' bg-blue-200' : '')}
     >{children}</div>
   );
 };

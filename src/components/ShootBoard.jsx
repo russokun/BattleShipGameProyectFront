@@ -16,9 +16,9 @@ const ShootBoard = () => {
 
   const renderHeaderRow = () => (
     <div className="flex">
-      <div className="w-[50px] h-[50px]"></div> {/* Espacio vacío para la esquina superior izquierda */}
+      <div className="md:w-[50px] md:h-[50px] w-[30px] h-[30px]"></div> {/* Espacio vacío para la esquina superior izquierda */}
       {numbers.map((number) => (
-        <div key={number} className="w-[50px] h-[50px] flex justify-center items-center font-bold text-xl">
+        <div key={number} className="md:w-[50px] md:h-[50px] w-[30px] h-[30px] flex justify-center items-center font-bold text-xl">
           {number}
         </div>
       ))}
@@ -31,7 +31,7 @@ const ShootBoard = () => {
         {renderHeaderRow()}
         {letters.map((letter, rowIndex) => (
           <div key={`row-${rowIndex}`} className="flex">
-            <div className="w-[50px] h-[50px] flex justify-center items-center font-bold text-xl">
+            <div className="md:w-[50px] md:h-[50px] w-[30px] h-[30px] flex justify-center items-center font-bold text-xl">
               {letter}
             </div>
             {numbers.map((number) => {
@@ -42,7 +42,7 @@ const ShootBoard = () => {
                 <div 
                   key={cellId}
                   id={cellId}
-                  className={`w-[50px] h-[50px] border border-gray-800 flex justify-center items-center cursor-pointer ${isHit ? 'bg-red-500 text-white' : ''} ${isMiss ? 'bg-gray-400' : ''}`}
+                  className={`md:w-[50px] md:h-[50px] w-[30px] h-[30px] border border-gray-800 flex justify-center items-center cursor-pointer ${isHit ? 'bg-red-500 text-white' : ''} ${isMiss ? 'bg-gray-400' : ''}`}
                   onClick={() => handleCellClick(cellId)}
                 >
                   {isHit ? 'X' : ''}
