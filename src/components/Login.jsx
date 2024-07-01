@@ -56,7 +56,7 @@ const LoginComponent = () => {
       dispatch(login(account));
       navigate("/mm");
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error)
     }
   };
 
