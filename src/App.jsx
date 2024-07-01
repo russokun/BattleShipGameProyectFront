@@ -10,6 +10,8 @@ import Matchmaking from './pages/Matchmaking';
 import Game from './pages/Game';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Waiting from './components/Waiting';
 
 const AppRoutes = () => {
@@ -53,7 +55,8 @@ const App = () => {
   return (
     <Router>
       <DndProvider backend={HTML5Backend}>
-        <AppRoutes />
+      <AppRoutes />
+      <ToastContainer />
       </DndProvider>
     </Router>
   );
