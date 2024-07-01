@@ -7,7 +7,7 @@ const Game = () => {
   const [showShipContainer, setShowShipContainer] = useState(true);
 
   return (
-    <div className="flex items-center w-full min-h-screen bg-cover bg-[url('/background.jpeg')] p-6">
+    <div className="flex items-center w-full min-h-screen bg-cover bg-[url('/max.gif')] p-6">
       <div className='flex flex-wrap md:gap-5 gap-20 flex-col md:flex-row'>
         <div className='flex flex-col md:flex-row flex-wrap'>
         <ShipContainer show={showShipContainer} />
