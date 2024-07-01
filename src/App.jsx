@@ -12,13 +12,14 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Waiting from './components/Waiting';
 
 const AppRoutes = () => {
   const location = useLocation();
-  
+
   const isAuthRoute = location.pathname === '/login' || location.pathname === '/register';
-  
+  const isWaitingRoute = location.pathname === '/waiting';
+
   return (
     <div>
       {isAuthRoute ? (
@@ -27,16 +28,24 @@ const AppRoutes = () => {
           <Route path='/login' element={<Logincomponent />} />
         </Routes>
       ) : (
-        <MainLayout>
-          <Routes>
-            <Route path='/' element={<Landing />} />
-            <Route path='/mm' element={<Matchmaking />} />
-            <Route path='/ranking' element={<Ranking />} />
-            {/* Otras rutas con MainLayout */}
-            {/* <Route path='/shoot' element={<ShootBoard />} /> */}
-            <Route path='/game' element={<Game />} />
-          </Routes>
-        </MainLayout>
+        <>
+          {isWaitingRoute ? (
+            <Routes>
+              <Route path='/waiting' element={<Waiting />} />
+            </Routes>
+          ) : (
+            <MainLayout>
+              <Routes>
+                <Route path='/' element={<Landing />} />
+                <Route path='/mm' element={<Matchmaking />} />
+                <Route path='/ranking' element={<Ranking />} />
+                {/* Otras rutas con MainLayout */}
+                {/* <Route path='/shoot' element={<ShootBoard />} /> */}
+                <Route path='/game' element={<Game />} />
+              </Routes>
+            </MainLayout>
+          )}
+        </>
       )}
     </div>
   );
