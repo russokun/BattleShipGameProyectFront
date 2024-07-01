@@ -45,7 +45,7 @@ const Game = () => {
   }, [data])
 
   return (
-    <div className="flex flex-col relative items-center justify-center w-full min-h-screen bg-cover gap-10 bg-[url('/background.jpeg')] p-6">
+    <div className="flex items-center relative items-center justify-center gap-10 w-full min-h-screen bg-cover bg-[url('/max.gif')] p-6">
       <div className='flex flex-wrap md:gap-5 gap-20 flex-col md:flex-row'>
         <div className='flex relative flex-col justify-center items-center md:flex-row flex-wrap'>
           <ShipContainer show={showShipContainer} />
